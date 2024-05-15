@@ -1,4 +1,4 @@
-package neshkart.com.example.neshkart;
+package com.neshkart.neshkart;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

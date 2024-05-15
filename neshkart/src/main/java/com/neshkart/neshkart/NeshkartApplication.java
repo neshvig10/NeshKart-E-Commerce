@@ -1,9 +1,9 @@
-package neshkart.com.example.neshkart;
+package com.neshkart.neshkart;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication()
 public class NeshkartApplication {
 
 	public static void main(String[] args) {
