@@ -1,6 +1,12 @@
 package com.neshkart.neshkart.repository;
 
+import com.neshkart.neshkart.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProductRepository extends JpaRepository {
+import java.util.List;
+
+@Repository
+public interface ProductRepository extends JpaRepository<Product,Long> {
+
 }

@@ -4,19 +4,24 @@ package com.neshkart.neshkart.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "product")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public long productId;
 
-    @Column(name = "productname")
+    @Column(name = "product_name")
     public String productName;
 
-    @Column(name = "productprice")
-    public double productPrice;
+    @Column(name = "product_price")
+    public Double productPrice;
 
+    @Column(name = "product_description")
+    public String productDescription;
+
+
+
+    
 
 
 }
