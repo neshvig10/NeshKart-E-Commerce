@@ -10,5 +10,5 @@ public interface ProductService {
 
     List<Product> findAll();
 
-    String addProduct(Product product);
+    Product addProduct(Product product);
 }

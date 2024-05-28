@@ -5,10 +5,7 @@ import com.neshkart.neshkart.model.Product;
 import com.neshkart.neshkart.repository.ProductRepository;
 import com.neshkart.neshkart.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,7 +22,7 @@ public class ProductController {
     }
 
     @PostMapping("/addProduct")
-    public String addProduct(Product product){
+    public Product addProduct(@RequestBody Product product){
         return productService.addProduct(product);
     }
 
