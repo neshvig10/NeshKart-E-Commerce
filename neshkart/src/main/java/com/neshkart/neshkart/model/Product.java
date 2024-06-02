@@ -3,6 +3,8 @@ package com.neshkart.neshkart.model;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @Entity
 @Table(name = "product")
 public class Product {
@@ -23,6 +25,9 @@ public class Product {
 
     @Column(name = "product_quantity")
     public Long productQuantity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    public User user;
 
     public Product(long productId, String productName, Double productPrice, String productDescription, Long productQuantity) {
         this.productId = productId;
