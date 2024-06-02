@@ -1,8 +1,9 @@
 package com.neshkart.neshkart.service;
 
 import com.neshkart.neshkart.model.User;
+import org.springframework.http.ResponseEntity;
 
 public interface UserService{
 
-    String register(User user);
+    ResponseEntity<String> register(User user);
 }
