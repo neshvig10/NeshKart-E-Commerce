@@ -3,6 +3,7 @@ package com.neshkart.neshkart.model;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "role")
@@ -17,11 +18,13 @@ public class Role {
     public String roleName;
 
     @ManyToMany(mappedBy = "userRoles",fetch = FetchType.LAZY)
-    public Collection<User> users;
+    public List<User> users;
 
+    public Role() {
+    }
 
-
-
-
-
+    public Role(String roleName) {
+        super();
+        this.roleName = roleName;
+    }
 }

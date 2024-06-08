@@ -16,16 +16,16 @@ const Login = () => {
 
         e.preventDefault();
 
-
         const user = {
             "userName" : userName,
-            "password" : password,
-            // "userRole" : userRole
+            "userPassword" : password,
+            "userRole" : userRole
         }
+
         console.log(user);
         try{
             const response = await axios.post("http://localhost:8080/api/auth/login",user);
-
+            console.log(response);
             if (response.status === 200){
                 console.log("Logged In successfully");
                 navigate("/");
@@ -76,13 +76,13 @@ const Login = () => {
                     </div>
                     
 
-                    {/* <div className='w-4'>
+                    <div className='w-4'>
                         <label>Role</label>
-                        <select name="role" id="userrole" onChange={(e) => setUserRole(e.value)}>
+                        <select name="role" id="userrole" onChange={(e) => setUserRole(e.target.value)}>
                             <option value="Customer">Customer</option>
                             <option value="Seller">Seller</option>
                         </select>
-                    </div> */}
+                    </div>
 
                     <button
                         type="submit"
