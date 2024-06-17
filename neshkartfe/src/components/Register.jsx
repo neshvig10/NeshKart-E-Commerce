@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
 
-    const [userName,setUserName] = useState('');
+    const [name,setName] = useState('');
     const [phone,setPhone] = useState();
     const [email,setEmail] = useState("");
     const [password,setPassword] = useState('');
@@ -34,7 +34,7 @@ const Register = () => {
         }
 
         const user = {
-            "userName" : userName,
+            "name" : name,
             "userPhone" : phone,
             "userEmail" : email,
             "userPassword" : password
@@ -80,9 +80,9 @@ const Register = () => {
             <form onSubmit={registerUser}> 
                 <div>
                         <label>
-                                UserName 
+                                Name 
                         </label> 
-                        <input className='border-2' type="text" value={userName} onChange={(e)=> setUserName(e.target.value)} />
+                        <input className='border-2' type="text" value={name} onChange={(e)=> setName(e.target.value)} />
                 </div>
                 <div>
                     <label>

@@ -5,9 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
-    const [userName,setUserName] = useState("");
+    const [userPhone,setuserPhone] = useState("");
     const [password,setPassword] = useState("");
-    const [userRole,setUserRole] = useState("Customer");
     const [message,setMessage] = useState("");
     const navigate = useNavigate();
 
@@ -17,9 +16,8 @@ const Login = () => {
         e.preventDefault();
 
         const user = {
-            "userName" : userName,
+            "userPhone" : userPhone,
             "userPassword" : password,
-            "userRole" : userRole
         }
 
         console.log(user);
@@ -31,6 +29,7 @@ const Login = () => {
                 navigate("/");
             }
             else{
+                setMessage(response.data);
 
             }
         }
@@ -61,10 +60,10 @@ const Login = () => {
                     <div>
 
                             <label>
-                                    UserName 
+                                    Phone Number 
                             </label> 
                             
-                            <input className='border-2' type="text" value={userName} onChange={(e)=> setUserName(e.target.value)} />
+                            <input className='border-2' type="text" value={userPhone} onChange={(e)=> setuserPhone(e.target.value)} />
 
                     </div>
 
@@ -76,13 +75,6 @@ const Login = () => {
                     </div>
                     
 
-                    <div className='w-4'>
-                        <label>Role</label>
-                        <select name="role" id="userrole" onChange={(e) => setUserRole(e.target.value)}>
-                            <option value="Customer">Customer</option>
-                            <option value="Seller">Seller</option>
-                        </select>
-                    </div>
 
                     <button
                         type="submit"

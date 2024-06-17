@@ -1,4 +1,6 @@
 import {React, useEffect, useState} from "react"
+import SideBar from "./SideBar";
+import SearchBar from "./SearchBar";
 
 
 const Products = ()=> {
@@ -15,10 +17,20 @@ const Products = ()=> {
     
     return (
     <>   
-    
-        <ul>
-            { data }    
-        </ul>         
+        <div className="flex items-center min-h-screen">
+            <div className="w-1/6 min-h-screen">
+                <SideBar></SideBar>
+            </div>
+            <div>
+                <div>
+                    <SearchBar></SearchBar>
+                </div>
+                <div>
+
+                </div>
+            </div>
+        </div>
+
     </>
     )
 };

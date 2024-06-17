@@ -5,7 +5,7 @@ import React from 'react';
 const Navbar = () => {
 	return(
 	<>
-	<div className='font-bold bg-black text-white flex justify-between h-12 py-3'>
+	<div className='font-bold bg-blue-500 text-white flex justify-between h-12 py-3'>
 		<div className=''>
 			<a href='./' className='m-1 my-3'> NeshKart</a>
 			<a href="./products" className='m-1 my-3'>Products</a>

@@ -26,12 +26,6 @@ public class User {
     @Column(name = "user_password")
     public String userPassword;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    public List<Role> userRoles;
-
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinTable(name = "user_product",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -78,13 +72,6 @@ public class User {
         this.userPassword = userPassword;
     }
 
-    public List<Role> getUserRoles() {
-        return userRoles;
-    }
-
-    public void setUserRoles(List<Role> userRoles) {
-        this.userRoles = userRoles;
-    }
 
     public Collection<Product> getUserProducts() {
         return userProducts;
