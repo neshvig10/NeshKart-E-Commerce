@@ -16,11 +16,23 @@ public class Cart {
     @Column(name = "user_id")
     private Long userId;
 
+    public Long getCartId() {
+        return cartId;
+    }
+
+    public void setCartId(Long cartId) {
+        this.cartId = cartId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     @Column(name = "product_id")
     private Long productId;
 
     @Column(name = "quantity")
-    private Long quantity;
+    private Long quantity = 1L;
 
     public Long getQuantity() {
         return quantity;

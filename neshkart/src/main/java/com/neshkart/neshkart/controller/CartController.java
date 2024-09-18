@@ -26,6 +26,11 @@ public class CartController {
         return cartService.addToCart(addToCart.getJwtToken(),addToCart.getProductId());
     }
 
+    @PostMapping("/removeFromCart")
+    public String removeFromCart(@RequestBody AddToCart addToCart){
+        return cartService.removeFromCart(addToCart.getJwtToken(),addToCart.getProductId());
+    }
+
     @GetMapping("/cartProducts")
     public List<Product> getCartProducts(@RequestParam String token){
         return cartService.cartProducts(token);

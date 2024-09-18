@@ -42,6 +42,7 @@ const Cart = () => {
               <img src={product.image} alt={product.productName} className="w-full h-48 object-cover mb-4" />
               <h2 className="text-xl font-semibold">{product.productName}</h2>
               <p className="text-gray-500">Rs. {product.productPrice}</p>
+              <p>Nos. {product.productQuantity}</p>
             </div>
           ))}
         </div>

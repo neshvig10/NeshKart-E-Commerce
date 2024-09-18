@@ -25,15 +25,33 @@ public class CartServiceImpl implements CartService {
 
     public String addToCart(String jwt,Long productId){
         Cart cart = new Cart(jwtUtil.extractUserId(jwt),productId);
-        cartRepository.save(cart);
+        if (cartRepository.productAlreadyExist(jwtUtil.extractUserId(jwt),productId)!=0){
+            cartRepository.increaseQuantity(jwtUtil.extractUserId(jwt),productId);
+        }
+        else {
+            cartRepository.save(cart);
+        }
         return "Added Successfully";
+    }
+
+    public String removeFromCart(String jwt,Long productId){
+        if (cartRepository.productAlreadyExist(jwtUtil.extractUserId(jwt),productId)==1){
+            Cart cart1 = cartRepository.getReferenceByUserIdAndProductId(jwtUtil.extractUserId(jwt),productId);
+            cartRepository.delete(cart1);
+        }else{
+            cartRepository.decreaseQuantity(jwtUtil.extractUserId(jwt),productId);
+        }
+        return "Removed Succesfully";
+
     }
 
     public List<Product> cartProducts(String jwt){
         List<Long> productsId = cartRepository.productsOfAUserFromCart(jwtUtil.extractUserId(jwt));
         List <Product> productList = new ArrayList<>();
         for (Long int1 : productsId){
-            productList.add(productRepository.getReferenceById(int1));
+            Product product = productRepository.getReferenceById(int1);
+            product.setProductQuantity(cartRepository.getQuantityByProductId(jwtUtil.extractUserId(jwt), int1));
+            productList.add(product);
         }
         return productList;
     }
