@@ -1,5 +1,6 @@
 import {React} from "react";
 import SideBarButton from "./SideBarButton";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
     return (
@@ -26,15 +27,15 @@ const SideBar = () => {
                 </div>
 
                 <div flex>
-                    <SideBarButton category="Men's"></SideBarButton>
+                    {/* <SideBarButton category="Men's"></SideBarButton>
                     <SideBarButton category="Women's"></SideBarButton>
                     <SideBarButton category="Children's"></SideBarButton>
-                    <SideBarButton category="Student's"></SideBarButton>
+                    <SideBarButton category="Student's"></SideBarButton> */}
                 </div>
 
 
                 <div className="mb-0">
-                Made by <a href="">Vignesh</a>
+                Made by <Link to="">Vignesh</Link>
                 </div>
 
             </div>

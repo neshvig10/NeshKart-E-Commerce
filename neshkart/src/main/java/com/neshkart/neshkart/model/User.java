@@ -73,7 +73,7 @@ public class User {
     }
 
 
-    public Collection<Product> getUserProducts() {
+    public List<Product> getUserProducts() {
         return userProducts;
     }
 

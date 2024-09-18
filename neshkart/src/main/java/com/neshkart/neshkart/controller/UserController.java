@@ -19,6 +19,10 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @GetMapping("/user/{user_phone}")
+    public User getUserById(@PathVariable("user_phone") Long userPhone) {
+        return userService.getUserById(userPhone);
+    }
 
     @PostMapping(value = "/signup")
     public ResponseEntity<String> addUser(@RequestBody User user){
@@ -27,8 +31,6 @@ public class UserController {
 
     @PostMapping(value = "/login")
     public ResponseEntity<String> userLogin(@RequestBody LoginUser loginUser){
-        User user = userRepository.findByUserPhone(loginUser.getUserPhone());
-        user.setUserPassword(loginUser.getUserPassword());
-        return userService.login(user);
+        return userService.login(loginUser);
     }
 }

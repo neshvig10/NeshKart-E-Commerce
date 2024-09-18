@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {React, useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const Register = () => {
@@ -118,7 +118,7 @@ const Register = () => {
             </div>
                 <div>
                     Already have an account ?
-                    <a className='text-blue-400 underline' href="./login"> Login</a>
+                    <Link className='text-blue-400 underline' to="./login"> Login</Link>
                 </div>
             </div>
         </>
