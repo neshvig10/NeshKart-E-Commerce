@@ -35,4 +35,9 @@ public class CartController {
     public List<Product> getCartProducts(@RequestParam String token){
         return cartService.cartProducts(token);
     }
+
+    @GetMapping("/quantityOfProduct")
+    public Long productQuantity(@RequestParam String jwt,@RequestParam Long productId){
+        return cartService.cartProductQuantity(jwt,productId);
+    }
 }

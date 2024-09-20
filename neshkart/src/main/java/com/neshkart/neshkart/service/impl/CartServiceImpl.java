@@ -35,7 +35,7 @@ public class CartServiceImpl implements CartService {
     }
 
     public String removeFromCart(String jwt,Long productId){
-        if (cartRepository.productAlreadyExist(jwtUtil.extractUserId(jwt),productId)==1){
+        if (cartRepository.getQuantityByProductId(jwtUtil.extractUserId(jwt),productId)==1){
             Cart cart1 = cartRepository.getReferenceByUserIdAndProductId(jwtUtil.extractUserId(jwt),productId);
             cartRepository.delete(cart1);
         }else{
@@ -50,12 +50,14 @@ public class CartServiceImpl implements CartService {
         List <Product> productList = new ArrayList<>();
         for (Long int1 : productsId){
             Product product = productRepository.getReferenceById(int1);
-            product.setProductQuantity(cartRepository.getQuantityByProductId(jwtUtil.extractUserId(jwt), int1));
             productList.add(product);
         }
         return productList;
     }
 
+    public Long cartProductQuantity(String jwt,Long productId){
+        return cartRepository.getQuantityByProductId(jwtUtil.extractUserId(jwt),productId);
+    }
 
 
 }

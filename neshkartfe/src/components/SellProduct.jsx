@@ -7,38 +7,41 @@ const SellProduct = ()=> {
     const [productName,setProductName] = useState("");
     const [productDescription,setProductDescription] = useState("");
     const [productPrice,setProductPrice] = useState("");
-    const [productImage,setProductImage] = useState("");
+    const [productImage,setProductImage] = useState(null);
 
-    const addProduct = async (e)=>{
+    const addProduct = async (e) => {
         e.preventDefault();
-
-        const product = {
-            productName : productName,
-            productDescription : productDescription,
-            productPrice : productPrice,
-            userJwt : localStorage.getItem("jwtToken")
+    
+        const formData = new FormData();
+        formData.append('productName', productName);
+        formData.append('productDescription', productDescription);
+        formData.append('productPrice', productPrice);
+        formData.append('userJwt', localStorage.getItem("jwtToken"));
+        formData.append('productImage', productImage);
+    
+        // Log FormData entries
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
         }
-
-        
-
-        try{
-            const response = await axios.post("http://localhost:8080/api/addProduct",product);;
+    
+        try {
+            const response = await axios.post("http://localhost:8080/api/addProduct", formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data' // Ensure the right content type is set
+                }
+            });
             console.log(response);
-            console.log(response.status);
-            if(response.status === 200){
+            if (response.status === 200) {
                 alert("Product Added Successfully");
                 window.location.reload();
-            }
-            else{
+            } else {
                 alert("Failed to add product");
             } 
+        } catch (error) {
+            console.error("Error adding product", error);
         }
-        catch(error){
-            console.error("Error registering user",error);
-        }
-
-
     }
+    
 
 
     return (
@@ -56,14 +59,20 @@ const SellProduct = ()=> {
         <input className='border-2 h-20' type="text" value={productDescription} onChange={(e) => {setProductDescription(e.target.value)}}/>
 
         <label htmlFor="">Product Image</label>
-        <input type="file" value={productImage} onChange={(e) => {setProductImage(e.target.value)}}/>
+        <input 
+            type="file" 
+            accept="image/*" 
+            onChange={(e) => {
+                const file = e.target.files[0]; // Access the selected file
+                if (file) {
+                    setProductImage(file); // Set the file to state
+                }
+            }} 
+        />
+
 
         <button className='bg-blue-400 text-white h-7 w-[110px] rounded mx-14 mt-4'>Add Product</button>
-
-
-
         </form>
-
         </div>
 
         </>

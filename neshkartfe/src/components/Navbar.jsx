@@ -1,6 +1,7 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 // import styles from "../index.css"
 
 
@@ -8,8 +9,30 @@ const Navbar = () => {
 
 	const {user,logout} = useAuth();
 	console.log(user);
-	
 
+	const [userId,setUserId]=useState();
+
+
+
+
+	useEffect(() => {
+		async function getUserId() {
+
+			const jwtToken = localStorage.getItem("jwtToken");
+			console.log(jwtToken);
+			
+
+			if (!jwtToken) {
+				console.error("JWT token is missing");
+				return;
+			}
+			
+			const response = await axios.get(`http://localhost:8080/api/auth/userId?jwt=${jwtToken}`);
+			setUserId(response.data);
+		}
+
+        	getUserId();
+ }, []);
 return(
 
 	
@@ -24,7 +47,7 @@ return(
 				{user!=null  ? 
 					<>
 							<Link to="./cart" className='m-1'>Cart</Link>
-							<Link to={`/user/${user.user}`} className='m-1'>Profile</Link>
+							<Link to={`/user/${userId}`} className='m-1'>Profile</Link>
 							<Link to="./sellProduct" className='m-1'>Sell Products</Link>
 							<button onClick={logout} className='m-1'>Logout</button>
 

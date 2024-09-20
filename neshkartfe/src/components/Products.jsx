@@ -24,7 +24,7 @@ const Products = () => {
             <div className="w-1/6 min-h-screen">
                 <SideBar />
             </div>
-            <div className="w-5/6 p-4">
+            <div className="p-4 grid-container grid grid-cols-5 gap-7 self-start ml-10 mt-10">
                 {products.length > 0 ? (
                     products.map((product) => (
                         <Product key={product.id} product={product} />

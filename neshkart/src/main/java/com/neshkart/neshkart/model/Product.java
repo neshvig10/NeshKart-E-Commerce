@@ -32,20 +32,30 @@ public class Product {
     @Column(name = "product_quantity")
     public Long productQuantity;
 
-    @Column(name = "jwt")
-    public String userJwt;
+    @Column(name = "product_image")
+    public String pathToImage;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    public User user;
+    @Column(name = "user_id")
+    public Long userId;
 
-    public User getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    public User user;
+
+//    public User getUser() {
+//        return user;
+//    }
+//
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
 
     public Product(long productId, String productName, Double productPrice, String productDescription, Long productQuantity) {
         this.productId = productId;
@@ -55,12 +65,20 @@ public class Product {
         this.productQuantity = productQuantity;
     }
 
-    public long getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(long productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public String getPathToImage() {
+        return pathToImage;
+    }
+
+    public void setPathToImage(String pathToImage) {
+        this.pathToImage = pathToImage;
     }
 
     public String getProductName() {
@@ -95,12 +113,5 @@ public class Product {
         this.productQuantity = productQuantity;
     }
 
-    public String getUserJwt() {
-        return userJwt;
-    }
-
-    public void setUserJwt(String userJwt) {
-        this.userJwt = userJwt;
-    }
 
 }

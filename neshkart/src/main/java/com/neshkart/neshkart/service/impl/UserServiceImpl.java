@@ -31,8 +31,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private JwtUtil jwtUtil;
 
-    public User getUserById(Long user_phone){
-        return userRepository.getByUserPhone(user_phone);
+    public User getUserById(Long user_id){
+        return userRepository.getReferenceById(user_id);
     }
 
     public ResponseEntity<String> register(User user){
@@ -43,17 +43,12 @@ public class UserServiceImpl implements UserService {
             return ResponseEntity.ok("Email already exists");
         }
         else{
-            List<Product> productsList = new ArrayList<>();
-            user.setUserProducts(productsList);
             userRepository.save(user);
-//            Cart cart1 = new Cart();
-//            cart1.setUserId(user.getUserId());
-//            Set<Long> productsList1 = new HashSet<>();
-//            cart1.setProductList(productsList1);
-//            cartRepository.save(cart1);
             return ResponseEntity.ok("Registered");
         }
     }
+
+
 
 
     public ResponseEntity<String> login(LoginUser loginUser) {

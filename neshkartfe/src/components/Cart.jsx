@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import CartProduct from "./CartProduct";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -34,21 +36,19 @@ const Cart = () => {
 
   return (
     <div>
-      <h1>Your Cart</h1>
+      <h2 className="m-10 font-extrabold">Your Cart</h2>
       {products != null ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-6">
+        <div className="px-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
           {products.map((product) => (
-            <div key={product.productId} className="border m-1 rounded-lg p-4 shadow-lg">
-              <img src={product.image} alt={product.productName} className="w-full h-48 object-cover mb-4" />
-              <h2 className="text-xl font-semibold">{product.productName}</h2>
-              <p className="text-gray-500">Rs. {product.productPrice}</p>
-              <p>Nos. {product.productQuantity}</p>
-            </div>
+            <CartProduct key={product.id} product={product}></CartProduct>
           ))}
         </div>
       ) : (
         <p>No products in your cart.</p>
       )}
+      <Link to={'/checkout'} >
+      <button className="absolute bottom-10 right-10 bg-blue-500 text-white p-3 rounded">Checkout</button>
+      </Link>
     </div>
   );
 };
