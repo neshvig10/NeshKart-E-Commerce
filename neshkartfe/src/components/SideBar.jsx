@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const SideBar = () => {
     return (
         <>
-            <div className="bg-blue-100 min-h-screen p-3 flex flex-col justify-around space-x-4">
+            <div className="bg-blue-100 h-full p-3">
                 
                 <div className="m-10">
                     Price range

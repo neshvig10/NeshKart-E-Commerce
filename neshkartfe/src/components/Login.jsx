@@ -23,22 +23,39 @@ const Login = () => {
       userPassword: password,
     };
 
-    const response = await axios.post(
-      "http://localhost:8080/api/auth/login",
-      user,
-      { headers: { Authorization: localStorage.getItem("SavedToken") } }
-    );
-    console.log(response.status);
-    if (response.status === 200) {
+    try{
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/login",
+        user,
+        { headers: { Authorization: localStorage.getItem("SavedToken") } }
+      );
+
       let token = response.data;
       console.log(response.data);
       localStorage.setItem("jwtToken",token);
       localStorage.setItem("userPhone",userPhone);
       login(userPhone);
       navigate("/");
-    } else {
-      setMessage(response.data);
+      window.location.reload(); 
+
+    }catch(err){
+      if (err.response){
+        if (err.response.status===400){
+          setMessage("Phone number does not exists");
+        }
+        else if (err.response.status === 401){
+          setMessage("Password is wrong !");
+        }
+        else{
+          setMessage("Login failed, try again");
+        }
+      }
+      else{
+        setMessage("Error occured, try again");
+      }
     }
+
+
   };
 
   return (
@@ -86,7 +103,7 @@ const Login = () => {
 
               <div>
                 Don't have an account ?
-                <Link className="text-blue-400 underline" to="./signup">
+                <Link className="text-blue-400 underline" to="/signup">
                   Register
                 </Link>
               </div>

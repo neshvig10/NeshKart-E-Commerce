@@ -6,7 +6,8 @@ const SellProduct = ()=> {
 
     const [productName,setProductName] = useState("");
     const [productDescription,setProductDescription] = useState("");
-    const [productPrice,setProductPrice] = useState("");
+    const [productPrice,setProductPrice] = useState();
+    const [productQuantity,setProductQuantity] = useState();
     const [productImage,setProductImage] = useState(null);
 
     const addProduct = async (e) => {
@@ -16,6 +17,7 @@ const SellProduct = ()=> {
         formData.append('productName', productName);
         formData.append('productDescription', productDescription);
         formData.append('productPrice', productPrice);
+        formData.append('productQuantity',productQuantity);
         formData.append('userJwt', localStorage.getItem("jwtToken"));
         formData.append('productImage', productImage);
     
@@ -58,6 +60,9 @@ const SellProduct = ()=> {
         <label htmlFor="">Description</label>
         <input className='border-2 h-20' type="text" value={productDescription} onChange={(e) => {setProductDescription(e.target.value)}}/>
 
+        <label htmlFor="">Quantity</label>
+        <input className='border-2' type="number" value={productQuantity} onChange={(e) => {setProductQuantity(e.target.value)}}/>
+    
         <label htmlFor="">Product Image</label>
         <input 
             type="file" 

@@ -34,7 +34,7 @@ const Register = () => {
         }
 
         const user = {
-            "name" : name,
+            "userName" : name,
             "userPhone" : phone,
             "userEmail" : email,
             "userPassword" : password

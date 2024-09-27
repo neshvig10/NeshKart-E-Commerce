@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Product = ({ product }) => {
     const { user } = useAuth();
@@ -28,7 +28,11 @@ const Product = ({ product }) => {
                 jwtToken: localStorage.getItem("jwtToken"),
                 productId: productId
             };
-            if (quantity===0){
+            console.log(quantity+"hi1");
+            
+            if (quantity===0 || !quantity){
+                console.log(quantity+"hi2");
+                
                 setQuantity(quantity*1+1);
                 await axios.post('http://localhost:8080/api/addToCart', cartItem);
             }
@@ -75,10 +79,16 @@ const Product = ({ product }) => {
 
     return (
         <div key={product.productId} className="border rounded-lg p-4 shadow-lg self-start">
+            <Link to={`/product/${product.productId}`}>
+
             <img src={"http://localhost:8080/api/images/"+product.pathToImage} alt={product.productName} className="h-48 w-50" />
             <h2 className="text-xl font-semibold">{product.productName}</h2>
             <p className="text-gray-500">Rs. {product.productPrice}</p>
+
+            </Link>
+
             <div className="flex gap-2">
+
 
                 {quantity === 0 ||  (!quantity) ? (
                     <button onClick={() => addToCart(product.productId)} className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">

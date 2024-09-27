@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
 import {Routes,Route, BrowserRouter } from "react-router-dom";
-import Home from "./components/Home";
 import Cart from "./components/Cart";
 import Profile from "./components/Profile";
 import Products from "./components/Products";
@@ -11,6 +10,7 @@ import AddProduct from "./components/AddProduct";
 import SellProduct from "./components/SellProduct";
 import { AuthProvider } from "./contexts/AuthContext";
 import Checkout from "./components/Checkout";
+import Home from "./components/Home";
 
 
 const App = () => {
@@ -20,8 +20,7 @@ const App = () => {
                     <BrowserRouter>
                     <Navbar></Navbar>
                         <Routes>
-                            <Route path="/" element = {<Home/>}></Route>
-                            <Route path="/products" element = {<Products/>}></Route>
+                            <Route path="/" element = {<Products/>}></Route>
                             <Route path="/cart" element = {<Cart/>}></Route>
                             <Route path="/login" element = {<Login/>}></Route>
                             <Route path="/signup" element = {<Register/>}></Route>

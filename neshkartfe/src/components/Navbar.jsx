@@ -1,16 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import SearchBar from './SearchBar';
 // import styles from "../index.css"
 
 
 const Navbar = () => {
 
 	const {user,logout} = useAuth();
+	const navigate = useNavigate();
 	console.log(user);
 
 	const [userId,setUserId]=useState();
+
+	const location = useLocation();
+	// function logoutAndNavigate(){
+	// 	logout();
+	// 	navigate("/products");
+	// }
 
 
 
@@ -28,28 +36,43 @@ const Navbar = () => {
 			}
 			
 			const response = await axios.get(`http://localhost:8080/api/auth/userId?jwt=${jwtToken}`);
-			setUserId(response.data);
+			setUserId(response.data*1);
 		}
 
         	getUserId();
  }, []);
+
+  const routes = ["/","/products"];
+
+ 
 return(
 
 	
 	<>			
 			
 			<div className='font-bold bg-blue-500 text-white flex justify-between h-12 py-3'>
-			<div className=''>
-				<Link to="./products" className='m-1 my-3'>Products</Link>
+			<div className='w-16'>
+				<Link to="/" className='m-1 my-3'>Products</Link>
 			</div>
 
-			<div>
+			{routes.includes(location.pathname) &&
+
+			<div className='w-3/4'>
+				<SearchBar></SearchBar>
+			</div>
+
+			}
+
+
+			<div className='w-500px'>
 				{user!=null  ? 
 					<>
-							<Link to="./cart" className='m-1'>Cart</Link>
+							<Link to="/cart" className='m-1'>Cart</Link>
 							<Link to={`/user/${userId}`} className='m-1'>Profile</Link>
-							<Link to="./sellProduct" className='m-1'>Sell Products</Link>
+							<Link to="/sellProduct" className='m-1'>Sell Products</Link>
+							<Link to="/">
 							<button onClick={logout} className='m-1'>Logout</button>
+							</Link>
 
 					</>
 					:

@@ -4,6 +4,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    
 
     // Load user from localStorage when the app starts
     useEffect(() => {
@@ -20,8 +21,8 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         setUser(null);
-        localStorage.removeItem("jwtToken");  // Remove the token from localStorage
-        window.location.reload();  // Optionally reload the page or redirect to login page
+        localStorage.removeItem("jwtToken"); 
+        // Optionally reload the page or redirect to login page
     };
 
     return (

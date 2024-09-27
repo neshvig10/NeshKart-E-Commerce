@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import CartProduct from "./CartProduct";
 import { useAuth } from "../contexts/AuthContext";
 import CheckoutProduct from "./CheckoutProduct";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Checkout = () => {
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
@@ -12,6 +14,8 @@ const Checkout = () => {
   const [error, setError] = useState(null);
   const token = localStorage.getItem("jwtToken");
   const { user } = useAuth();
+
+
 
   // Fetch the quantity of a product
   const getQuantity = async (productId) => {
@@ -79,13 +83,14 @@ const Checkout = () => {
       <div className="mx-10"> 
         <label htmlFor="">Enter the name,phone number and address</label>
         <br />
-        <input onChange={(e)=> {setAddress(e)}} value={address} className="border-black border-2 rounded h-40 w-1/3 text-left align-text-top" type="text" />
+        <textarea onChange={(e)=> {setAddress(e.target.value)}} value={address} className="border-black border-2 rounded h-40 w-1/3 p-3 text-left align-text-top" type="text" />
       </div>
+        <br /><br />
+        <p className="absolute right-20 font-extrabold">Total = Rs. {total}</p>
+        <br /><br />
+        <button className="bg-blue-500 p-3 text-white rounded absolute right-20 font-extrabold">Pay Rs.{total}</button>
 
-      <br /><br />
-      <p className="absolute right-20 font-extrabold">Total = Rs. {total}</p>
-      <br /><br />
-      <button className="bg-blue-500 p-3 text-white rounded absolute right-20 font-extrabold">Proceed to Pay</button>
+
     </div>
   );
 };
