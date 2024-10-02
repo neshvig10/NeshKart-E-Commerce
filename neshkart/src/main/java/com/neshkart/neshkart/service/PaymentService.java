@@ -1,2 +1,4 @@
-package com.neshkart.neshkart.service;public class PaymentService {
+package com.neshkart.neshkart.service;
+
+public interface PaymentService {
 }

@@ -56,12 +56,14 @@ public class ProductController {
                               @RequestParam("productDescription") String productDescription,
                               @RequestParam("productPrice") Double productPrice,
                               @RequestParam("userJwt") String userJwt,
-                              @RequestParam("productImage") MultipartFile productImage){
+                              @RequestParam("productImage") MultipartFile productImage,
+                              @RequestParam("productQuantity") Long productQuantity){
 
         Product product = new Product();
         product.setProductName(productName);
         product.setProductDescription(productDescription);
         product.setProductPrice(productPrice);
+        product.setProductQuantity(productQuantity);
         String jwt = userJwt;
         product.setUserId(jwtUtil.extractUserId(jwt));
         Product product1 =  productService.addProduct(product,productImage);

@@ -77,7 +77,6 @@ return(
 					</>
 					:
 					<>
-								<Link to="./cart" className='m-1'>Cart</Link>
 								<Link to="./login" className='m-1'>Login</Link>
 								<Link to="./signup" className='m-1'>Register</Link>
 					</>

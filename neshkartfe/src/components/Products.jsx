@@ -8,11 +8,9 @@ const Products = () => {
 
     const {products} = useSearch();
 
-
-
     return (
         <div className="flex items-center min-h-screen">
-            <div className="w-1/6 h-full min-h-screen">
+            <div className="w-1/6 h-screen">
             <SideBar />
             </div>
             <div className="p-4 grid-container grid grid-cols-5 gap-7 self-start  mt-10">

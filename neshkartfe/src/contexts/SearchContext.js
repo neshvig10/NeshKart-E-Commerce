@@ -35,7 +35,7 @@ export const SearchProvider = ({ children }) => {
 
             
             const products2 =products1.filter((product) => {
-                return product.productName.toLowerCase().includes(searchText.toLowerCase());
+                return (product.productName.toLowerCase().includes(searchText.toLowerCase()) || product.productDescription.toLowerCase().includes(searchText.toLowerCase()));
             })
             console.log("searchText"+searchText);
             

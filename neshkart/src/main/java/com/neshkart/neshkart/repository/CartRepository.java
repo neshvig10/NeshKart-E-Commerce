@@ -39,4 +39,8 @@ public interface CartRepository extends JpaRepository<Cart,Long> {
 
     @Query(value = "SELECT * FROM cart WHERE user_id = :user_id AND product_id = :product_id",nativeQuery = true)
     Cart getReferenceByUserIdAndProductId(@Param("user_id") Long user_id,@Param("product_id") Long product_id);
+
+
+//    @Query(value = "DELETE FROM cart",nativeQuery = true)
+//    void clearCart();
 }

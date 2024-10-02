@@ -59,5 +59,9 @@ public class CartServiceImpl implements CartService {
         return cartRepository.getQuantityByProductId(jwtUtil.extractUserId(jwt),productId);
     }
 
+    public void clearCart(){
+        cartRepository.deleteAll();
+    }
+
 
 }

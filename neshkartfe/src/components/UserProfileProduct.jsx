@@ -65,7 +65,7 @@ const UserProfileProduct = ({ product }) => {
         {1 ? 
         
         <div key={product.id} className="border rounded-lg p-4 shadow-lg self-start">
-            <img src={"http://localhost:8080/api/images/"+product.pathToImage} alt={product.productName} className="h-48 w-50" />
+            <img src={"http://localhost:8080/api/images/"+product.pathToImage} alt={product.productName} className="h-24 w-25" />
             <p>{product.productQuantity} Nos left</p>
             <h2 className="text-xl font-semibold">{product.productName}</h2>
             <p className="text-gray-500">Rs. {product.productPrice}</p>

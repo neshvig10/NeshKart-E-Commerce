@@ -40,4 +40,9 @@ public class CartController {
     public Long productQuantity(@RequestParam String jwt,@RequestParam Long productId){
         return cartService.cartProductQuantity(jwt,productId);
     }
+
+    @DeleteMapping("/clearCart")
+    public void clearCart(){
+        cartService.clearCart();
+    }
 }

@@ -1,37 +1,132 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import CartProduct from "./CartProduct";
 import { useAuth } from "../contexts/AuthContext";
 import CheckoutProduct from "./CheckoutProduct";
-import { loadStripe } from "@stripe/stripe-js";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const navigate = useNavigate();
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [total, setTotal] = useState(0);
-  const [address,setAddress] = useState(""); 
+  const [address, setAddress] = useState("");
   const [error, setError] = useState(null);
+  const [userId, setUserId] = useState();
   const token = localStorage.getItem("jwtToken");
   const { user } = useAuth();
+  const [isPaymentComplete, setIsPaymentComplete] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
-
-
-  // Fetch the quantity of a product
   const getQuantity = async (productId) => {
     try {
       const response = await axios.get(
         `http://localhost:8080/api/quantityOfProduct?jwt=${token}&productId=${productId}`
       );
-      return response.data; // Assuming the API returns just the quantity
+      return response.data;
     } catch (error) {
       console.error("Error fetching cart product quantity:", error);
-      return 0; // Return 0 if there's an error
+      return 0;
     }
   };
 
-  // Fetch products and calculate total
+  async function orderRegister() {
+    const order = {
+      userId: userId,
+      address: address,
+      dateTime: new Date().toString(),
+    };
+
+    const response = await axios.post("http://localhost:8080/api/orderRegister", order);
+    const orderId = response.data;
+
+    for (let i = 0; i < products.length; i++) {
+      const orderProduct = {
+        orderId: orderId,
+        productId: products[i].productId,
+        quantity: products[i].productQuantity,
+      };
+      await axios.post("http://localhost:8080/api/orderProductRegister", orderProduct);
+    }
+  }
+
+  async function paymentSuccessFull() {
+    await axios.delete("http://localhost:8080/api/clearCart");
+  }
+
+  const paymentProcess = async (event) => {
+    event.preventDefault();
+
+    if (isProcessing) return;
+    setIsProcessing(true);
+
+    if (!stripe || !elements) {
+      setError("Stripe is not loaded properly. Please try again later.");
+      setIsProcessing(false);
+      return;
+    }
+
+    if (!address) {
+      setError("Please enter your address before proceeding.");
+      setIsProcessing(false);
+      return;
+    }
+
+    const cardElement = elements.getElement(CardElement);
+
+    try {
+      const response = await fetch("http://localhost:8080/api/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: total }),
+      });
+
+      if (!response.ok) {
+        setError("Failed to create payment intent. Please try again.");
+        setIsProcessing(false);
+        return;
+      }
+
+      const { clientSecret } = await response.json();
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: { card: cardElement },
+      });
+
+      if (result.error) {
+        console.error("Payment error:", result.error.message);
+        setError(result.error.message);
+      } else if (result.paymentIntent.status === "succeeded") {
+        setIsPaymentComplete(true);
+        paymentSuccessFull();
+        orderRegister();
+        navigate(`/user/${userId}`);
+      } else {
+        setError(`Payment failed with status: ${result.paymentIntent.status}`);
+      }
+    } catch (err) {
+      console.error("Error during payment process:", err);
+      setError("Payment failed. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   useEffect(() => {
+    async function getUserId() {
+      const jwtToken = localStorage.getItem("jwtToken");
+      if (!jwtToken) {
+        console.error("JWT token is missing");
+        return;
+      }
+
+      const response = await axios.get(`http://localhost:8080/api/auth/userId?jwt=${jwtToken}`);
+      setUserId(response.data * 1);
+    }
+
     const fetchProducts = async () => {
       try {
         const response = await axios.get(
@@ -41,14 +136,12 @@ const Checkout = () => {
         setProducts(fetchedProducts);
 
         let totalAmount = 0;
-
-        // Loop through products and fetch quantity for each
         for (const product of fetchedProducts) {
           const quantity = await getQuantity(product.productId);
-          totalAmount += product.productPrice * quantity; // Calculate total price for each product
+          totalAmount += product.productPrice * quantity;
         }
 
-        setTotal(totalAmount); // Set the total price
+        setTotal(totalAmount);
       } catch (err) {
         console.error("Error fetching products:", err);
         setError("Failed to fetch products");
@@ -57,6 +150,7 @@ const Checkout = () => {
       }
     };
 
+    getUserId();
     if (token) {
       fetchProducts();
     } else {
@@ -69,28 +163,52 @@ const Checkout = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
-      <h1 className="font-extrabold mt-5 ml-5">Your Items for Checkout</h1>
-      {products && products.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-6 m-10">
-          {products.map((product) => (
-            <CheckoutProduct key={product.productId} product={product}></CheckoutProduct>
-          ))}
-        </div>
-      ) : (
-        <p>Buy new Items</p>
-      )}
-      <div className="mx-10"> 
-        <label htmlFor="">Enter the name,phone number and address</label>
-        <br />
-        <textarea onChange={(e)=> {setAddress(e.target.value)}} value={address} className="border-black border-2 rounded h-40 w-1/3 p-3 text-left align-text-top" type="text" />
+    <div className="flex flex-col lg:flex-row">
+      {/* Left Side: Products */}
+      <div className="lg:w-2/3 p-5">
+        <h1 className="font-extrabold mt-5 ml-5">Your Items for Checkout</h1>
+        {products && products.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-6">
+            {products.map((product) => (
+              <CheckoutProduct key={product.productId} product={product}></CheckoutProduct>
+            ))}
+          </div>
+        ) : (
+          <p>Buy new items</p>
+        )}
       </div>
-        <br /><br />
-        <p className="absolute right-20 font-extrabold">Total = Rs. {total}</p>
-        <br /><br />
-        <button className="bg-blue-500 p-3 text-white rounded absolute right-20 font-extrabold">Pay Rs.{total}</button>
 
+      {/* Right Side: Address, CardElement, and Pay Button */}
+      <div className="lg:w-1/3 p-5">
+        <div className="mb-6">
+          <label className="block font-bold mb-2">Shipping Address</label>
+          <textarea
+            onChange={(e) => setAddress(e.target.value)}
+            value={address}
+            className="border-black border-2 rounded h-40 w-full p-3"
+            placeholder="Enter your address"
+          />
+        </div>
 
+        <div className="mb-6">
+          <label className="block font-bold mb-2">Payment Details</label>
+          <div className="border-black border-2 rounded p-3">
+            <CardElement />
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <p className="text-lg font-bold">Total: Rs. {total}</p>
+        </div>
+
+        <button
+          onClick={paymentProcess}
+          className="bg-blue-500 p-3 text-white rounded w-full"
+          disabled={isProcessing}
+        >
+          {isProcessing ? "Processing..." : `Pay Rs.${total}`}
+        </button>
+      </div>
     </div>
   );
 };

@@ -38,7 +38,7 @@ const Cart = () => {
     <div>
       <h2 className="m-10 font-extrabold">Your Cart</h2>
       {products != null ? (
-        <div className="px-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        <div className="px-10 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-10 gap-2">
           {products.map((product) => (
             <CartProduct key={product.id} product={product}></CartProduct>
           ))}

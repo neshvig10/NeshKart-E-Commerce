@@ -19,4 +19,6 @@ public interface CartService {
 
     public Long cartProductQuantity(String jwt,Long productId);
 
+    public void clearCart();
+
 }
