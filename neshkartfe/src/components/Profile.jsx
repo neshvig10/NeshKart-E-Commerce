@@ -7,6 +7,8 @@ const Profile = () => {
   const { userId } = useParams();
   console.log("userId", userId);
 
+  let productsOfOrders = new Object();
+
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
   const [user, setUser] = useState(null);
@@ -27,7 +29,7 @@ const Profile = () => {
     const fetchProducts = async () => {
       try {
         console.log("Fetching products for userId:", userId);
-        const response = await axios.get(`http://localhost:8080/api/product/${userId}`);
+        const response = await axios.get(`http://localhost:8080/api/userProducts/${userId}`);
         const productsData = response.data;
         setProducts(productsData);
         console.log("Fetched products:", productsData);
@@ -36,15 +38,19 @@ const Profile = () => {
       }
     };
 
+
     const fetchOrders = async () => {
       try {
         const jwt = localStorage.getItem("jwtToken")
         const response = await axios.get(`http://localhost:8080/api/orders?jwt=${jwt}`);
+
         setOrders(response.data);
       } catch (error) {
         console.error("Error fetching orders:", error);
       }
     }
+
+    
 
     if (userId) {
       fetchUserData();
@@ -74,6 +80,7 @@ const Profile = () => {
               <div key={order.orderId} className="border p-4 rounded-lg">
                 <div className="flex justify-between">
                   <div className="text-lg font-semibold">Order ID: {order.orderId}</div>
+                  {productsOfOrders[order.orderId]}
                   <div className="text-sm text-gray-600">{new Date(order.dateTime).toLocaleDateString()}</div>
                 </div>
               </div>

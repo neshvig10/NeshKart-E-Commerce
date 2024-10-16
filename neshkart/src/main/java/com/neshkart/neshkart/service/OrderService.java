@@ -3,6 +3,7 @@ package com.neshkart.neshkart.service;
 
 import com.neshkart.neshkart.model.Orders;
 import com.neshkart.neshkart.model.OrderItems;
+import com.neshkart.neshkart.model.Product;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public interface OrderService {
     public void orderProductRegister(OrderItems orderItems);
 
     public List<Orders> listOfOrders(String jwt);
+
+    public List<Long> productByOrderId(Long orderId);
 
 
 }

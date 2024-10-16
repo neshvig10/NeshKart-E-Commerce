@@ -33,6 +33,9 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
 
+    @Override
+    public Product getProduct(Long id){return productRepository.getReferenceById(id);}
+
 
     @Override
     public List<Product> productByUserId(Long id){

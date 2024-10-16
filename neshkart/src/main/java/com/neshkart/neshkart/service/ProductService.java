@@ -16,5 +16,7 @@ public interface ProductService {
     Product addProduct(Product product, MultipartFile imageFile);
     List<Product> productByUserId(Long id);
 
+    public Product getProduct(Long id);
+
     InputStream getProductImage(String path) throws FileNotFoundException;
 }

@@ -11,6 +11,7 @@ import SellProduct from "./components/SellProduct";
 import { AuthProvider } from "./contexts/AuthContext";
 import Checkout from "./components/Checkout";
 import Home from "./components/Home";
+import ProductMain from "./components/ProductMain";
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
                             <Route path="/cart" element = {<Cart/>}></Route>
                             <Route path="/login" element = {<Login/>}></Route>
                             <Route path="/signup" element = {<Register/>}></Route>
+                            <Route path="/product/:productId" element = {<ProductMain/>}></Route>
                             <Route path="/user/:userId" element = {<Profile/>}></Route>
                             <Route path="/addProduct" element = {<AddProduct/>}></Route>
                             <Route path="/sellProduct" element = {<SellProduct/>}></Route>

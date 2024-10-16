@@ -3,6 +3,7 @@ package com.neshkart.neshkart.controller;
 
 import com.neshkart.neshkart.model.Orders;
 import com.neshkart.neshkart.model.OrderItems;
+import com.neshkart.neshkart.model.Product;
 import com.neshkart.neshkart.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +31,11 @@ public class OrderController {
     @GetMapping(value = "/orders")
     public List<Orders> ordersList(String jwt){
         return orderService.listOfOrders(jwt);
+    }
+
+    @GetMapping(value = "/productOfOrder")
+    public List<Long> productList(Long orderId){
+        return orderService.productByOrderId(orderId);
     }
 
 

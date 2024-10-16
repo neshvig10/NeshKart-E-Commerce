@@ -3,6 +3,7 @@ package com.neshkart.neshkart.service.impl;
 
 import com.neshkart.neshkart.model.Orders;
 import com.neshkart.neshkart.model.OrderItems;
+import com.neshkart.neshkart.model.Product;
 import com.neshkart.neshkart.repository.OrderItemRepository;
 import com.neshkart.neshkart.repository.OrderRepository;
 import com.neshkart.neshkart.service.OrderService;
@@ -37,6 +38,10 @@ public class OrderServiceImpl implements OrderService {
     public List<Orders> listOfOrders(String jwt){
         Long userId = jwtUtil.extractUserId(jwt);
         return orderRepository.findAllOrdersByUserId(userId);
+    }
+
+    public List<Long> productByOrderId(Long orderId){
+        return orderRepository.findProductByOrderId(orderId);
     }
 
 }
