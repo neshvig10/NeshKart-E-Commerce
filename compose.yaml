@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  frontend:
+    image: react-app
+    container_name: react-container
+    build:
+      context: ./neshkartfe/Dockerfile  # Update this path to your React Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080 # Reference the backend service
+
+  backend:
+    image: neshkart-app
+    container_name: springboot-container
+    build:
+      context: ./neshkart/Dockerfile # Update this path to your Spring Boot Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/neshkart
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Password123#  # Correct format
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8
+    container_name: mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: Password123#  # Correct format
+      MYSQL_DATABASE: neshkart
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db-data:
